@@ -10,6 +10,9 @@
           {{ category }}
         </button>
       </div>
+      <a href="/y-combinator" class="bg-transparent hover:bg-blue-600 text-blue-500 font-semibold hover:text-white m-1 py-2 px-4 border border-blue-800 hover:border-transparent rounded"
+        >Y Combinator</a
+      >
     </div>
     <News :newsList="news" />
   </main>
@@ -17,22 +20,12 @@
   <main v-else class="flex flex-col align-center justify-center text-center">
     <div class="text-gray-500 text-3xl mt-10 mb-6">Fetching Data</div>
   </main>
-
-  <!-- Next and Previous buttons -->
-  <ul v-if="!loading" class="w-full pb-4 flex flex-wrap bg-grey-light justify-center">
-    <li v-if="previousURL" class="mx-1 px-3 py-2 bg-gray-200 text-gray-700 hover:bg-gray-700 hover:text-gray-200 rounded-lg">
-      <button class="flex items-center font-bold" v-on:click="fetchNextNews(previousURL)">Previous</button>
-    </li>
-    <li v-if="nextURL" class="mx-1 px-3 py-2 bg-gray-200 text-gray-700 hover:bg-gray-700 hover:text-gray-200 rounded-lg">
-      <button class="flex items-center font-bold" v-on:click="fetchNextNews(nextURL)">Next</button>
-    </li>
-  </ul>
-  <!-- END Next and Previous buttons -->
 </template>
 
 <script>
 import Header from "@/components/Header";
 import News from "@/components/News";
+import axios from "axios";
 
 export default {
   name: "Home",
@@ -48,31 +41,27 @@ export default {
   },
   methods: {
     async fetchNews() {
-      const res = await fetch("https://sagaryadav17.herokuapp.com/news/news/");
-      const data = await res.json();
-      return data;
+      const response = await axios.get("https://sagaryadav17.herokuapp.com/news/news/");
+      return response.data;
     },
 
     // Fetch News on the basis of category
     async fetchCategoryNews(categoryName) {
       this.loading = true;
-      const res = await fetch("https://sagaryadav17.herokuapp.com/news/news/?category=" + categoryName);
-      const data = await res.json();
-      this.news = data.results;
-      this.nextURL = data.next;
-      this.previousURL = data.previous;
+      const response = await axios.get("https://sagaryadav17.herokuapp.com/news/news/?category=" + categoryName);
+
+      this.news = response.data.results;
+      this.nextURL = response.data.next;
+      this.previousURL = response.data.previous;
       this.loading = false;
     },
 
-    // Fetch News on the basis of page number
+    // Load more news
     async fetchNextNews(url) {
-      this.loading = true;
-      const res = await fetch(url);
-      const data = await res.json();
-      this.news = data.results;
-      this.nextURL = data.next;
-      this.previousURL = data.previous;
-      this.loading = false;
+      const response = await axios.get(url);
+      this.news.push(...response.data.results);
+      this.nextURL = response.data.next;
+      this.previousURL = response.data.previous;
     },
   },
 
@@ -84,6 +73,12 @@ export default {
     this.nextURL = data.next;
     this.previousURL = data.previous;
     this.loading = false;
+
+    window.onscroll = () => {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        this.fetchNextNews(this.nextURL);
+      }
+    };
   },
 };
 </script>

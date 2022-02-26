@@ -7,6 +7,11 @@ const routes = [
     name: "Home",
     component: Home,
   },
+  {
+    path: "/y-combinator",
+    name: "YCombinator",
+    component: () => import("../views/YCombinator.vue"),
+  },
 ];
 
 const router = createRouter({
