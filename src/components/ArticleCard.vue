@@ -1,7 +1,5 @@
 <template>
   <div class="w-full rounded-md shadow-md shadow-gray-200 hover:shadow-blue-400/80 hover:shadow-2xl bg-gray-800">
-    <img v-if="article.urlToImage" class="aspect-video bg-cover w-full rounded-t-md min-h-40" :src="article.urlToImage" />
-
     <div class="p-4">
       <span class="text-blue-600 font-normal text-base">{{ article.source }}</span>
       <a :href="article.url" rel="noopener" target="_blank">

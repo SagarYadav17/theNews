@@ -43,7 +43,7 @@ export default {
       news: [],
       nextURL: null,
       previousURL: null,
-      categoryList: ["Technology", "Sports", "Science", "Health", "General", "Entertainment", "Business", "Top"],
+      categoryList: ["Technology", "Science", "Entertainment"],
     };
   },
   methods: {
