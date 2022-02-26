@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
+import YCombinator from "../views/YCombinator.vue";
 
 const routes = [
   {
@@ -10,7 +11,7 @@ const routes = [
   {
     path: "/y-combinator",
     name: "YCombinator",
-    component: () => import("../views/YCombinator.vue"),
+    component: YCombinator,
   },
 ];
 
