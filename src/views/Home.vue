@@ -32,10 +32,10 @@ export default {
   components: { Header, News },
   data() {
     return {
+      title: "theNews",
       loading: true,
       news: [],
       nextURL: null,
-      previousURL: null,
       categoryList: ["Technology", "Science", "Entertainment"],
     };
   },
@@ -46,39 +46,40 @@ export default {
     },
 
     // Fetch News on the basis of category
-    async fetchCategoryNews(categoryName) {
+    async fetchCategoryNews(categoryName = String) {
+      document.title = `${categoryName[0].toUpperCase() + categoryName.substring(1)} | theNews`;
       this.loading = true;
       const response = await axios.get("https://sagaryadav17.herokuapp.com/news/news/?category=" + categoryName);
-
       this.news = response.data.results;
       this.nextURL = response.data.next;
-      this.previousURL = response.data.previous;
       this.loading = false;
     },
 
     // Load more news
-    async fetchNextNews(url) {
+    async fetchNextNews(url = String) {
       const response = await axios.get(url);
       this.news.push(...response.data.results);
       this.nextURL = response.data.next;
-      this.previousURL = response.data.previous;
+    },
+
+    handleScroll() {
+      if (window.scrollY + window.innerHeight >= document.body.scrollHeight) {
+        this.fetchNextNews(this.nextURL);
+      }
     },
   },
 
-  async created() {
-    document.title = "theNews";
+  created() {
+    document.title = this.title;
+  },
+
+  async mounted() {
     const data = await this.fetchNews();
 
     this.news = data.results;
     this.nextURL = data.next;
-    this.previousURL = data.previous;
     this.loading = false;
-
-    window.onscroll = () => {
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-        this.fetchNextNews(this.nextURL);
-      }
-    };
+    window.addEventListener("scroll", this.handleScroll);
   },
 };
 </script>

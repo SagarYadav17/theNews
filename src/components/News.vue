@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen">
-    <div class="p-4 gap-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 select-none">
-      <div v-for="news in newsList" v-bind:key="news.id">
+    <div class="flex flex-col items-start justify-center px-8 max-w-4xl mx-auto mt-5">
+      <div class="w-full" v-for="news in newsList" v-bind:key="news.id">
         <ArticleCard :article="news" />
       </div>
     </div>

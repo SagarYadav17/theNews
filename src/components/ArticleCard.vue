@@ -1,28 +1,15 @@
 <template>
-  <div class="w-full rounded-md shadow-md shadow-gray-200 hover:shadow-blue-400/80 hover:shadow-2xl bg-gray-800">
-    <div class="p-4">
-      <span class="text-blue-600 font-normal text-base">{{ article.source }}</span>
-      <a :href="article.url" rel="noopener" target="_blank">
-        <p class="cursor-pointer text-xl py-2 text-gray-300 hover:text-blue-600">
-          {{ article.title }}
-        </p>
-      </a>
-      <p class="font-light text-gray-400 text-justify line-clamp-3">
-        {{ article.description }}
+  <div>
+    <div class="flex flex-col justify-between md:flex-row">
+      <a :href="article.url" target="_blank" class="w-full mb-2 text-lg font-medium md:text-xl text-gray-100">{{ article.title }}</a>
+      <p class="w-32 text-left text-gray-500 md:text-right md:mb-0">
+        {{ article.source }}
       </p>
-      <div class="flex flex-wrap mt-10 space-x-4 align-bottom">
-        <i class="text-gray-400 fas fa-newspaper p-2 bg-gray-800 rounded-full" />
-
-        <div class="flex flex-col space-y-0">
-          <p class="font-semibold text-base text-gray-400">
-            {{ article.author }}
-          </p>
-          <p class="font-light text-sm text-gray-400">
-            {{ article.publishedAt }}
-          </p>
-        </div>
-      </div>
     </div>
+    <p class="text-gray-400">
+      {{ article.description }}
+    </p>
+    <hr class="my-2" />
   </div>
 </template>
 
