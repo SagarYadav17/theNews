@@ -67,6 +67,8 @@ export default {
     const stories = await axios.get("https://hacker-news.firebaseio.com/v0/topstories.json");
     this.ids = stories.data;
     this.fetchStories(this.ids.slice(this.start_number, this.end_number));
+    this.start_number += 20;
+    this.end_number += 20;
     this.loading = false;
     window.addEventListener("scroll", this.handleScroll);
   },
